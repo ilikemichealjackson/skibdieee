@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Time Machine</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #fff7e6, #ffdb4d);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        header {
+            background-color: #ffd700;
+            color: black;
+            padding: 1rem;
+            text-align: center;
+            animation: slideDown 0.5s ease-out;
+        }
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #b8860b;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #666;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ffd700;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #b8860b;
+        }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: #ffd700;
+            color: black;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #ffcc00;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .result {
+            background-color: #f0f0f0;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .note {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background-color: #fff7e6;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .note.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        footer {
+            background-color: #ffd700;
+            color: black;
+            padding: 1rem;
+            text-align: center;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        .gold-coin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes fallRotate {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coins"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>
+            Golden Time Machine
+        </h1>
+        <p>Travel through time with gold values! (Caravan proj)</p>
+    </header>
+    <main>
+        <div class="card">
+            <div class="card-title">Gold Translator</div>
+            <div class="input-group">
+                <label for="goldAmount">Gold amount in 1200s-1300s Africa (grams)</label>
+                <input type="number" id="goldAmount" step="0.01" min="0" placeholder="Enter past gold amount">
+            </div>
+            <div class="input-group">
+                <label for="modernGoldAmount">Gold amount in current times (grams)</label>
+                <input type="number" id="modernGoldAmount" step="0.01" min="0" placeholder="Enter present gold amount">
+            </div>
+            <div class="button-group">
+                <button onclick="translateGold('past')">Past to Present</button>
+                <button onclick="translateGold('present')">Present to Past</button>
+            </div>
+            <div id="result" class="result"></div>
+            <div id="note" class="note">
+                Note: These conversions are approximate and for demonstration purposes only.
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; IAN. PATENT PENDING!.</p>
+    </footer>
+
+    <script>
+        const GOLD_TO_USD_1300 = 91;
+        const USD_1300_TO_PRESENT = 30;
+        const GOLD_TO_USD_PRESENT = 85.55;
+
+        function translateGold(direction) {
+            const pastInput = document.getElementById('goldAmount');
+            const presentInput = document.getElementById('modernGoldAmount');
+            const resultElement = document.getElementById('result');
+            const noteElement = document.getElementById('note');
+
+            let goldAmount, usd1300, usdPresent;
+
+            if (direction === 'past') {
+                goldAmount = parseFloat(pastInput.value);
+                if (isNaN(goldAmount) || goldAmount < 0) {
+                    showError(resultElement, noteElement);
+                    return;
+                }
+                usd1300 = goldAmount * GOLD_TO_USD_1300;
+                usdPresent = usd1300 * USD_1300_TO_PRESENT;
+                presentInput.value = (usdPresent / GOLD_TO_USD_PRESENT).toFixed(2);
+                
+                resultElement.innerHTML = `
+                    <p><strong>${goldAmount.toFixed(2)} grams</strong> of gold in 1300:</p>
+                    <p>USD value in 1300: <strong>$${usd1300.toFixed(2)}</strong></p>
+                    <p>USD value today: <strong>$${usdPresent.toFixed(2)}</strong></p>
+                `;
+            } else {
+                goldAmount = parseFloat(presentInput.value);
+                if (isNaN(goldAmount) || goldAmount < 0) {
+                    showError(resultElement, noteElement);
+                    return;
+                }
+                usdPresent = goldAmount * GOLD_TO_USD_PRESENT;
+                usd1300 = usdPresent / USD_1300_TO_PRESENT;
+                pastInput.value = (usd1300 / GOLD_TO_USD_1300).toFixed(2);
+                
+                resultElement.innerHTML = `
+                    <p><strong>${goldAmount.toFixed(2)} grams</strong> of gold today:</p>
+                    <p>USD value today: <strong>$${usdPresent.toFixed(2)}</strong></p>
+                    <p>USD value in 1300: <strong>$${usd1300.toFixed(2)}</strong></p>
+                `;
+            }
+
+            resultElement.classList.add('show');
+            noteElement.classList.add('show');
+            
+            const card = document.querySelector('.card');
+            card.classList.add('shake');
+            setTimeout(() => card.classList.remove('shake'), 500);
+
+            createFallingGold();
+        }
+
+        function showError(resultElement, noteElement) {
+            resultElement.textContent = 'Please enter a valid positive number.';
+            resultElement.classList.add('show');
+            noteElement.classList.remove('show');
+        }
+
+        function createFallingGold() {
+            for (let i = 0; i < 20; i++) {
+                const coin = document.createElement('div');
+                coin.classList.add('gold-coin');
+                coin.style.left = `${Math.random() * 100}vw`;
+                coin.style.top = '-20px';
+                coin.style.animation = `fallRotate ${Math.random() * 2 + 3}s linear`;
+                document.body.appendChild(coin);
+
+                coin.addEventListener('animationend', () => {
+                    coin.remove();
+                });
+            }
+        }
+    </script>
+</body>
+</html>
